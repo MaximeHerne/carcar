@@ -7,6 +7,8 @@
 
 <h3>Appartient à l'école</h3>
 
+<%= link_to "sign out", destroy_teacher_session_path, method: :delete %>
+
 <table>
  <thead>
    <tr>
@@ -38,8 +40,10 @@
         <%= f.hidden_field :ends_at %>
         <%= f.hidden_field :availability_id %>
         <%= hour %>h - <%= hour + 1 %>h
-        <% unless availability.lesson_booked?(lesson.starts_at, lesson.ends_at) %>
-          <%= f.submit %>
+        <% if availability.nil? %>
+          <% teacher_path(params[:id]) %>
+        <% elsif availability.lesson_booked?(lesson.starts_at, lesson.ends_at) == false %>
+                  <%= f.submit %>
         <% end %>
       <% end %>
     <% end %>
